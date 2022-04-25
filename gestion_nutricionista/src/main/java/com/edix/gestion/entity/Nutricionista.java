@@ -143,4 +143,14 @@ public class Nutricionista implements Serializable {
 		return consulta;
 	}
 
+	public Nutricionista(int idNutricionista, String nombre, String apellidos, BigDecimal sueldo) {
+		super();
+		this.idNutricionista = idNutricionista;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.sueldo = sueldo;
+	}
+	
+	
+
 }
