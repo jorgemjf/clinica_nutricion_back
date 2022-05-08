@@ -23,7 +23,7 @@ public class ClienteDto {
 
 	private String telefono;
 	
-	private Set<ConsultaDto> consultas;
+	//private Set<ConsultaDto> consultas;
 
 	public int getIdCliente() {
 		return idCliente;
@@ -81,13 +81,12 @@ public class ClienteDto {
 		this.telefono = telefono;
 	}
 
-	public Set<ConsultaDto> getConsultas() {
-		return consultas;
-	}
-
-	public void setConsultas(Set<ConsultaDto> consultas) {
-		this.consultas = consultas;
-	}
+	/*
+	 * public Set<ConsultaDto> getConsultas() { return consultas; }
+	 * 
+	 * public void setConsultas(Set<ConsultaDto> consultas) { this.consultas =
+	 * consultas; }
+	 */
 	
 	
 

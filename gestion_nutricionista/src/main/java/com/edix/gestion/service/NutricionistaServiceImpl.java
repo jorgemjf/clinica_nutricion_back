@@ -93,4 +93,36 @@ public class NutricionistaServiceImpl implements NutricionistaService{
 		return nutriRepo.getAllFacturacionNutricionistasDiaActual(startOfDay, endOfDay);
 	}
 
+	@Override
+	public Nutricionista findById(int idNutricionista) {
+		return nutriRepo.findById(idNutricionista).orElse(null);
+	}
+
+	@Override
+	public int altaNutricionista(Nutricionista nutricionista) {
+		if (findById(nutricionista.getIdNutricionista()) == null) {
+			nutriRepo.save(nutricionista);
+			return 0;
+		}
+		return 1;
+	}
+
+	@Override
+	public int updateNutricionista(Nutricionista nutricionista) {
+		if (findById(nutricionista.getIdNutricionista()) != null) {
+			nutriRepo.save(nutricionista);
+			return 0;
+		}
+		return 1;
+	}
+
+	@Override
+	public int eliminarNutricionista(int idNutricionista) {
+		if (findById(idNutricionista) != null) {
+			nutriRepo.deleteById(idNutricionista);
+			return 0;
+		}
+		return 1;
+	}
+
 }

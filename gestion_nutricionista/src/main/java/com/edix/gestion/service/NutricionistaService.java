@@ -23,5 +23,13 @@ public interface NutricionistaService {
 	
 	Optional<List<NutricionistaFactGlobal>> getAllFacturacionDeNutricionistasDiaActual();
 	
+	Nutricionista findById(int idNutricionista);
+
+	int altaNutricionista(Nutricionista nutricionista);
+
+	int updateNutricionista(Nutricionista nutricionista);
+
+	int eliminarNutricionista(int idNutricionista);
+	
 
 }
