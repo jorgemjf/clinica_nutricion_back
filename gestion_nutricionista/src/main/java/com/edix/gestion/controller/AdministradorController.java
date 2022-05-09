@@ -43,7 +43,6 @@ public class AdministradorController {
 	private Transformation transform;
 
 // Metodo para sacar todas las consultas
-	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("")
 	ResponseEntity<?> getAllConsultas() {
 		List<ConsultaDto> consultaDto = null;
