@@ -12,8 +12,8 @@ import java.util.Set;
  */
 @Entity
 @Table(name="usuarios")
-@NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
-public class Usuario implements Serializable {
+@NamedQuery(name="Usuario.findAll", query="SELECT u FROM User u")
+public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -46,10 +46,22 @@ public class Usuario implements Serializable {
 			@JoinColumn(name="ID_PERFIL")
 			}
 		)
-	private Set<Perfile> perfiles;
+	private Set<Role> roles;
 
-	public Usuario() {
+	public User() {
 	}
+
+	public User(String username, String apellido, String direccion, String email, String nombre, String password) {
+		super();
+		this.username = username;
+		this.apellido = apellido;
+		this.direccion = direccion;
+		this.email = email;
+		this.nombre = nombre;
+		this.password = password;
+	}
+
+
 
 	public String getUsername() {
 		return this.username;
@@ -115,12 +127,12 @@ public class Usuario implements Serializable {
 		this.password = password;
 	}
 
-	public Set<Perfile> getPerfiles() {
-		return this.perfiles;
+	public Set<Role> getRoles() {
+		return this.roles;
 	}
 
-	public void setPerfiles(Set<Perfile> perfiles) {
-		this.perfiles = perfiles;
+	public void setRoles(Set<Role> perfiles) {
+		this.roles = perfiles;
 	}
 
 }

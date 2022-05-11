@@ -11,8 +11,8 @@ import java.util.Set;
  */
 @Entity
 @Table(name="perfiles")
-@NamedQuery(name="Perfile.findAll", query="SELECT p FROM Perfile p")
-public class Perfile implements Serializable {
+@NamedQuery(name="Perfile.findAll", query="SELECT p FROM Role p")
+public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -23,10 +23,10 @@ public class Perfile implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-many association to Usuario
-	@ManyToMany(mappedBy="perfiles")
-	private Set<Usuario> usuarios;
+	@ManyToMany(mappedBy="roles")
+	private Set<User> usuarios;
 
-	public Perfile() {
+	public Role() {
 	}
 
 	public int getIdPerfil() {
@@ -45,11 +45,11 @@ public class Perfile implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Set<Usuario> getUsuarios() {
+	public Set<User> getUsuarios() {
 		return this.usuarios;
 	}
 
-	public void setUsuarios(Set<Usuario> usuarios) {
+	public void setUsuarios(Set<User> usuarios) {
 		this.usuarios = usuarios;
 	}
 
