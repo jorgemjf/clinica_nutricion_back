@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +30,7 @@ import com.edix.gestion.service.NutricionistaService;
 import com.edix.gestion.utils.Transformation;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/administrador")
 public class AdministradorController {
 
@@ -301,5 +302,22 @@ public class AdministradorController {
 
 		return ResponseEntity.ok(nutriFactGlobalDto);
 	}
+	
+	@PostMapping("/alta")
+    public String procesarAltaNutricionista(@RequestBody Nutricionista nutricionista) {
+        return (nutriService.altaNutricionista(nutricionista)) == 0 ? "Alta realizada" : "Alta no realizada";
+    }
+
+    @PutMapping("/actualizar")
+    public String procesarActualizacionNutricionista(@RequestBody Nutricionista nutricionista) {
+        return (nutriService.updateNutricionista(nutricionista)) == 0 ? "Actualización realizada"
+                : "Actualización no realizada";
+    }
+
+    @DeleteMapping("/eliminar/{idNutricionista}")
+    public String procesarEliminacionNutricionista(@PathVariable int idNutricionista) {
+        return (nutriService.eliminarNutricionista(idNutricionista)) == 0 ? "Eliminacion realizada"
+                : "Eliminacion no realizada";
+    }
 
 }

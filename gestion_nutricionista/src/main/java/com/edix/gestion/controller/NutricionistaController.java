@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,20 +16,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edix.gestion.dto.ConsultaDto;
 import com.edix.gestion.dto.NutricionistaDto;
-import com.edix.gestion.dto.custom.NutricionistaFactGlobalDto;
 import com.edix.gestion.entity.Consulta;
 import com.edix.gestion.entity.Nutricionista;
-import com.edix.gestion.entity.custom.NutricionistaFactGlobal;
 import com.edix.gestion.service.ConsultaService;
 import com.edix.gestion.service.NutricionistaService;
 import com.edix.gestion.utils.Transformation;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/nutricionista")
 public class NutricionistaController {
 
