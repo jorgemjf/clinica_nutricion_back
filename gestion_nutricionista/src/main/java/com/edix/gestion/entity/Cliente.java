@@ -37,11 +37,11 @@ public class Cliente implements Serializable {
 
 	private String dni;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_ALTA")
 	private Date fechaAlta;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_NACIMIENTO")
 	private Date fechaNacimiento;
 

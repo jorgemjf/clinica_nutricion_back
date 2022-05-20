@@ -37,7 +37,7 @@ public class Consulta implements Serializable {
 
 	private int duracion;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_CONSULTA")
 	private Date fechaConsulta;
 

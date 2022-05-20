@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +30,7 @@ import com.edix.gestion.service.NutricionistaService;
 import com.edix.gestion.utils.Transformation;
 
 @RestController
+@CrossOrigin("http://localhost:4200")
 @RequestMapping(value = "/administrador")
 public class AdministradorController {
 
@@ -63,6 +64,29 @@ public class AdministradorController {
 
 		return ResponseEntity.ok(consultaDto);
 	}
+	
+	// Metodo para buscar informacion por consulta
+		@GetMapping("/consulta/{id}")
+		ResponseEntity<?> getConsulta(@PathVariable(value = "id") int id) {
+
+			ConsultaDto consultaDto = null;
+
+			try {
+
+				Optional<Consulta> consulta = Optional.ofNullable(cdao.findById(id));
+
+				if (consulta.isPresent()) {
+					consultaDto = transform.consultaEntity_consultaDto(consulta.get());
+				} else {
+					return ResponseEntity.notFound().build();
+				}
+
+			} catch (DataAccessException e) {
+				e.printStackTrace();
+			}
+
+			return ResponseEntity.ok(consultaDto);
+		}
 
 	// Metodo para sacar todas las consultas por nutricionista
 	@GetMapping("/nutricionista/consultas/{idNutricionista}")
@@ -88,8 +112,9 @@ public class AdministradorController {
 //Método para sacar todas las consultas por nutricionista según una fecha
 	@GetMapping("/nutricionista/consultas/{idNutricionista}/{fechaConsulta}")
 	ResponseEntity<?> getConsultasNutricionistaFecha(@PathVariable(value = "idNutricionista") int idNutricionista,
-			@PathVariable(value = "fechaConsulta") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date fechaConsulta) {
-
+			@PathVariable(value = "fechaConsulta") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaConsulta) {
+		System.out.println(idNutricionista);
+		System.out.println(fechaConsulta);
 		List<ConsultaDto> consultaDto = null;
 
 		try {
@@ -103,7 +128,7 @@ public class AdministradorController {
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println(consultaDto);
 		return ResponseEntity.ok(consultaDto);
 	}
 
@@ -301,5 +326,22 @@ public class AdministradorController {
 
 		return ResponseEntity.ok(nutriFactGlobalDto);
 	}
+	
+	@PostMapping("/alta")
+    public String procesarAltaNutricionista(@RequestBody Nutricionista nutricionista) {
+        return (nutriService.altaNutricionista(nutricionista)) == 0 ? "Alta realizada" : "Alta no realizada";
+    }
+
+    @PutMapping("/actualizar")
+    public String procesarActualizacionNutricionista(@RequestBody Nutricionista nutricionista) {
+        return (nutriService.updateNutricionista(nutricionista)) == 0 ? "Actualización realizada"
+                : "Actualización no realizada";
+    }
+
+    @DeleteMapping("/eliminar/{idNutricionista}")
+    public String procesarEliminacionNutricionista(@PathVariable int idNutricionista) {
+        return (nutriService.eliminarNutricionista(idNutricionista)) == 0 ? "Eliminacion realizada"
+                : "Eliminacion no realizada";
+    }
 
 }
