@@ -1,16 +1,20 @@
 package com.edix.gestion.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,7 +35,7 @@ import com.edix.gestion.utils.Transformation;
 
 @RestController
 @CrossOrigin("http://localhost:4200")
-@RequestMapping(value = "/administrador")
+@RequestMapping(value = "/gestion")
 public class AdministradorController {
 
 	@Autowired
@@ -174,7 +178,7 @@ public class AdministradorController {
 	}
 
 	// Metodo para buscar informacion por nutricionista
-	@GetMapping("nutricionista/{id}")
+	@GetMapping("/nutricionista/{id}")
 	ResponseEntity<?> getNutricionista(@PathVariable(value = "id") int id) {
 
 		NutricionistaDto nutricionistaDto = null;
@@ -200,6 +204,8 @@ public class AdministradorController {
 	@GetMapping(value = "/facturacion")
 	ResponseEntity<?> getFacturacionNutricionistasPorFecha(@RequestParam(name = "fechaMin") Date fechaMin,
 			@RequestParam(name = "fechaMax") Date fechaMax) {
+		System.out.println("fechaMax" + fechaMax);
+		System.out.println("fechaMax" + fechaMin);
 
 		List<NutricionistaFactGlobalDto> nutriFactGlobalDto = null;
 
@@ -326,22 +332,32 @@ public class AdministradorController {
 
 		return ResponseEntity.ok(nutriFactGlobalDto);
 	}
-	
-	@PostMapping("/alta")
+
+	// Metodo para añadir nutricionista
+	@PostMapping("/nutricionista/alta")
     public String procesarAltaNutricionista(@RequestBody Nutricionista nutricionista) {
         return (nutriService.altaNutricionista(nutricionista)) == 0 ? "Alta realizada" : "Alta no realizada";
     }
 
-    @PutMapping("/actualizar")
+	//Metodo para editar un nutricionista
+    @PutMapping("/nutricionista/actualizar")
     public String procesarActualizacionNutricionista(@RequestBody Nutricionista nutricionista) {
         return (nutriService.updateNutricionista(nutricionista)) == 0 ? "Actualización realizada"
                 : "Actualización no realizada";
     }
 
-    @DeleteMapping("/eliminar/{idNutricionista}")
+	// Metodo para eliminar un nutricionista
+    @DeleteMapping("/nutricionista/eliminar/{idNutricionista}")
     public String procesarEliminacionNutricionista(@PathVariable int idNutricionista) {
         return (nutriService.eliminarNutricionista(idNutricionista)) == 0 ? "Eliminacion realizada"
                 : "Eliminacion no realizada";
     }
 
+	// Metodo para formatear la fecha a formato web y evitar errores de conversion
+	// de tipo String a tipo Date
+	@InitBinder
+	public void initBinder (WebDataBinder webdataBinder) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		webdataBinder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, false));
+	}
 }
