@@ -410,12 +410,6 @@ public class AdministradorController {
   		return ResponseEntity.ok(clienteDto);
   	}
   	
-  	 // de tipo String a tipo Date
-    @InitBinder
-    public void initBinder (WebDataBinder webdataBinder) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        webdataBinder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, false));
-    }
 
 	// Metodo para formatear la fecha a formato web y evitar errores de conversion
 	// de tipo String a tipo Date

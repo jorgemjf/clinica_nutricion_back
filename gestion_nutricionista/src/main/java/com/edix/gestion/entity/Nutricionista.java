@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -39,11 +40,13 @@ public class Nutricionista implements Serializable {
 	private String apellidos;
 
 	private String dni;
-
+	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_ALTA")
 	private Date fechaAlta;
-
+	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_NACIMIENTO")
 	private Date fechaNacimiento;
@@ -55,8 +58,8 @@ public class Nutricionista implements Serializable {
 	private String telefono;
 
 	//bi-directional many-to-one association to Consulta
-	@OneToMany(mappedBy="nutricionista")
-	private Set<Consulta> consultas;
+	//@OneToMany(mappedBy="nutricionista")
+	//private Set<Consulta> consultas;
 
 	public Nutricionista() {
 	}
@@ -133,27 +136,22 @@ public class Nutricionista implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public Set<Consulta> getConsultas() {
-		return this.consultas;
-	}
-
-	public void setConsultas(Set<Consulta> consultas) {
-		this.consultas = consultas;
-	}
-
-	public Consulta addConsulta(Consulta consulta) {
-		getConsultas().add(consulta);
-		consulta.setNutricionista(this);
-
-		return consulta;
-	}
-
-	public Consulta removeConsulta(Consulta consulta) {
-		getConsultas().remove(consulta);
-		consulta.setNutricionista(null);
-
-		return consulta;
-	}
+	/*
+	 * public Set<Consulta> getConsultas() { return this.consultas; }
+	 * 
+	 * public void setConsultas(Set<Consulta> consultas) { this.consultas =
+	 * consultas; }
+	 * 
+	 * public Consulta addConsulta(Consulta consulta) {
+	 * getConsultas().add(consulta); consulta.setNutricionista(this);
+	 * 
+	 * return consulta; }
+	 * 
+	 * public Consulta removeConsulta(Consulta consulta) {
+	 * getConsultas().remove(consulta); consulta.setNutricionista(null);
+	 * 
+	 * return consulta; }
+	 */
 
 	public Nutricionista(int idNutricionista, String nombre, String apellidos, BigDecimal sueldo) {
 		super();
