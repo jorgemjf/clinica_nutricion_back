@@ -1,16 +1,21 @@
 package com.edix.gestion.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,19 +24,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.edix.gestion.dto.BonoDto;
+import com.edix.gestion.dto.ClienteDto;
 import com.edix.gestion.dto.ConsultaDto;
 import com.edix.gestion.dto.NutricionistaDto;
 import com.edix.gestion.dto.custom.NutricionistaFactGlobalDto;
+import com.edix.gestion.entity.Bono;
+import com.edix.gestion.entity.Cliente;
 import com.edix.gestion.entity.Consulta;
 import com.edix.gestion.entity.Nutricionista;
 import com.edix.gestion.entity.custom.NutricionistaFactGlobal;
+import com.edix.gestion.service.BonoService;
+import com.edix.gestion.service.ClienteService;
 import com.edix.gestion.service.ConsultaService;
 import com.edix.gestion.service.NutricionistaService;
 import com.edix.gestion.utils.Transformation;
 
 @RestController
 @CrossOrigin("http://localhost:4200")
-@RequestMapping(value = "/administrador")
+@RequestMapping(value = "/gestion")
 public class AdministradorController {
 
 	@Autowired
@@ -42,6 +53,12 @@ public class AdministradorController {
 
 	@Autowired
 	private Transformation transform;
+	
+	@Autowired
+	private ClienteService clienteService;
+	
+	@Autowired
+	private BonoService bonoService;
 
 // Metodo para sacar todas las consultas
 	@GetMapping("")
@@ -133,7 +150,7 @@ public class AdministradorController {
 	}
 
 	// Método para asignar una consulta a un nutricionista
-	@PostMapping("/consultas/alta")
+	@PostMapping(value = "/consultas/alta", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public String procesarAlta(@RequestBody Consulta consulta) {
 		return (cdao.altaConsulta(consulta)) == 0 ? "Alta realizada" : "Alta no realizada";
 	}
@@ -342,6 +359,57 @@ public class AdministradorController {
     public String procesarEliminacionNutricionista(@PathVariable int idNutricionista) {
         return (nutriService.eliminarNutricionista(idNutricionista)) == 0 ? "Eliminacion realizada"
                 : "Eliminacion no realizada";
+    }
+    
+    // Metodo para sacar todos los bonos
+ 	@GetMapping("/bonos")
+ 	ResponseEntity<?> getAllBonos() {
+ 		List<BonoDto> bonoDto = null;
+
+ 		try {
+
+ 			Optional<List<Bono>> bonos = bonoService.findAllBonos();
+
+ 			if (bonos.isPresent()) {
+ 				bonoDto = transform.listBonoEntity_bonoDto(bonos.get());
+ 			} else {
+ 				return ResponseEntity.notFound().build();
+ 			}
+
+ 		} catch (DataAccessException e) {
+ 			e.printStackTrace();
+ 		}
+
+ 		return ResponseEntity.ok(bonoDto);
+ 	}
+ 	
+ // Metodo para sacar todos los bonos
+  	@GetMapping("/clientes")
+  	ResponseEntity<?> getAllClientes() {
+  		List<ClienteDto> clienteDto = null;
+
+  		try {
+
+  			Optional<List<Cliente>> cliente = clienteService.findAllClientes();
+
+  			if (cliente.isPresent()) {
+  				clienteDto = transform.listclienteEntity_clienteDto(cliente.get());
+  			} else {
+  				return ResponseEntity.notFound().build();
+  			}
+
+  		} catch (DataAccessException e) {
+  			e.printStackTrace();
+  		}
+
+  		return ResponseEntity.ok(clienteDto);
+  	}
+  	
+  	 // de tipo String a tipo Date
+    @InitBinder
+    public void initBinder (WebDataBinder webdataBinder) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        webdataBinder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, false));
     }
 
 }
