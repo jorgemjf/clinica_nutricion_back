@@ -191,7 +191,7 @@ public class AdministradorController {
 	}
 
 	// Metodo para buscar informacion por nutricionista
-	@GetMapping("nutricionista/{id}")
+	@GetMapping("/nutricionista/{id}")
 	ResponseEntity<?> getNutricionista(@PathVariable(value = "id") int id) {
 
 		NutricionistaDto nutricionistaDto = null;
@@ -217,6 +217,8 @@ public class AdministradorController {
 	@GetMapping(value = "/facturacion")
 	ResponseEntity<?> getFacturacionNutricionistasPorFecha(@RequestParam(name = "fechaMin") Date fechaMin,
 			@RequestParam(name = "fechaMax") Date fechaMax) {
+		System.out.println("fechaMax" + fechaMax);
+		System.out.println("fechaMax" + fechaMin);
 
 		List<NutricionistaFactGlobalDto> nutriFactGlobalDto = null;
 
@@ -343,19 +345,22 @@ public class AdministradorController {
 
 		return ResponseEntity.ok(nutriFactGlobalDto);
 	}
-	
-	@PostMapping("/alta")
+
+	// Metodo para añadir nutricionista
+	@PostMapping("/nutricionista/alta")
     public String procesarAltaNutricionista(@RequestBody Nutricionista nutricionista) {
         return (nutriService.altaNutricionista(nutricionista)) == 0 ? "Alta realizada" : "Alta no realizada";
     }
 
-    @PutMapping("/actualizar")
+	//Metodo para editar un nutricionista
+    @PutMapping("/nutricionista/actualizar")
     public String procesarActualizacionNutricionista(@RequestBody Nutricionista nutricionista) {
         return (nutriService.updateNutricionista(nutricionista)) == 0 ? "Actualización realizada"
                 : "Actualización no realizada";
     }
 
-    @DeleteMapping("/eliminar/{idNutricionista}")
+	// Metodo para eliminar un nutricionista
+    @DeleteMapping("/nutricionista/eliminar/{idNutricionista}")
     public String procesarEliminacionNutricionista(@PathVariable int idNutricionista) {
         return (nutriService.eliminarNutricionista(idNutricionista)) == 0 ? "Eliminacion realizada"
                 : "Eliminacion no realizada";
@@ -412,4 +417,11 @@ public class AdministradorController {
         webdataBinder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, false));
     }
 
+	// Metodo para formatear la fecha a formato web y evitar errores de conversion
+	// de tipo String a tipo Date
+	@InitBinder
+	public void initBinder (WebDataBinder webdataBinder) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		webdataBinder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, false));
+	}
 }
