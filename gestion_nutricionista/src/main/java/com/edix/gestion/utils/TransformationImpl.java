@@ -6,9 +6,13 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Component;
 
+import com.edix.gestion.dto.BonoDto;
+import com.edix.gestion.dto.ClienteDto;
 import com.edix.gestion.dto.ConsultaDto;
 import com.edix.gestion.dto.NutricionistaDto;
 import com.edix.gestion.dto.custom.NutricionistaFactGlobalDto;
+import com.edix.gestion.entity.Bono;
+import com.edix.gestion.entity.Cliente;
 import com.edix.gestion.entity.Consulta;
 import com.edix.gestion.entity.Nutricionista;
 import com.edix.gestion.entity.custom.NutricionistaFactGlobal;
@@ -54,6 +58,18 @@ public class TransformationImpl implements Transformation{
 	@Override
 	public List<ConsultaDto> listConsultaEntity_ConsultaDto(List<Consulta> consultas) {
 		return mapper.map(consultas, new TypeToken<List<ConsultaDto>>() {
+		}.getType());
+	}
+
+	@Override
+	public List<BonoDto> listBonoEntity_bonoDto(List<Bono> bono) {
+		return mapper.map(bono, new TypeToken<List<Bono>>() {
+		}.getType());
+	}
+
+	@Override
+	public List<ClienteDto> listclienteEntity_clienteDto(List<Cliente> cliente) {
+		return mapper.map(cliente, new TypeToken<List<Cliente>>() {
 		}.getType());
 	}
 

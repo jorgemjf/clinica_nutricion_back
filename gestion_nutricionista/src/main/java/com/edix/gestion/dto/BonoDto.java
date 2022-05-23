@@ -17,7 +17,7 @@ public class BonoDto {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "es_ES", timezone = "Europe/Madrid")
 	private Date fechaAlta;
 	
-	private ClienteDto cliente;
+	//private ClienteDto cliente;
 
 	public int getIdBono() {
 		return idBono;
@@ -59,13 +59,11 @@ public class BonoDto {
 		this.fechaAlta = fechaAlta;
 	}
 
-	public ClienteDto getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(ClienteDto cliente) {
-		this.cliente = cliente;
-	}
+	/*
+	 * public ClienteDto getCliente() { return cliente; }
+	 * 
+	 * public void setCliente(ClienteDto cliente) { this.cliente = cliente; }
+	 */
 	
 	
 

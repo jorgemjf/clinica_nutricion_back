@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 /**
@@ -36,7 +36,8 @@ public class Consulta implements Serializable {
 	private int idConsulta;
 
 	private int duracion;
-
+	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_CONSULTA")
 	private Date fechaConsulta;

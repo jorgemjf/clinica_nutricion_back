@@ -2,9 +2,13 @@ package com.edix.gestion.utils;
 
 import java.util.List;
 
+import com.edix.gestion.dto.BonoDto;
+import com.edix.gestion.dto.ClienteDto;
 import com.edix.gestion.dto.ConsultaDto;
 import com.edix.gestion.dto.NutricionistaDto;
 import com.edix.gestion.dto.custom.NutricionistaFactGlobalDto;
+import com.edix.gestion.entity.Bono;
+import com.edix.gestion.entity.Cliente;
 import com.edix.gestion.entity.Consulta;
 import com.edix.gestion.entity.Nutricionista;
 import com.edix.gestion.entity.custom.NutricionistaFactGlobal;
@@ -24,5 +28,9 @@ public interface Transformation {
 
 	// Obtiene la clase de la consulta y la convierte a DTO
 	ConsultaDto consultaEntity_consultaDto(Consulta consulta);
+	
+	List<BonoDto> listBonoEntity_bonoDto(List<Bono> bono);
+	
+	List<ClienteDto> listclienteEntity_clienteDto(List<Cliente> cliente);
 
 }

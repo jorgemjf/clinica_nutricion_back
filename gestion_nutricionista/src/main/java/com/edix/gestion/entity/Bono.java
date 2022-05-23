@@ -2,6 +2,9 @@ package com.edix.gestion.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 
@@ -27,15 +30,16 @@ public class Bono implements Serializable {
 
 	@Column(name="CONSULTAS_RESTANTES")
 	private int consultasRestantes;
-
-	@Temporal(TemporalType.TIMESTAMP)
+	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_ALTA")
 	private Date fechaAlta;
 
 	//uni-directional many-to-one association to Cliente
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="ID_CLIENTE")
-	private Cliente cliente;
+	//@ManyToOne(fetch=FetchType.LAZY)
+	//@JoinColumn(name="ID_CLIENTE")
+	//private Cliente cliente;
 
 	public Bono() {
 	}
@@ -80,12 +84,10 @@ public class Bono implements Serializable {
 		this.fechaAlta = fechaAlta;
 	}
 
-	public Cliente getCliente() {
-		return this.cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+	/*
+	 * public Cliente getCliente() { return this.cliente; }
+	 * 
+	 * public void setCliente(Cliente cliente) { this.cliente = cliente; }
+	 */
 
 }
